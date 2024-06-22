@@ -1,5 +1,5 @@
 import { useLocation, NavLink, Outlet, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 import responseOptions from "../../API";
@@ -7,12 +7,17 @@ import css from "./MovieDetailsPage.module.css";
 
 const MovieDetailsPage = () => {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
 
   const location = useLocation();
+  const prevLocationRef = useRef();
 
   useEffect(() => {
+    prevLocationRef.current = location.state;
+
+    setLoading(true);
+
     let options = {
       ...responseOptions,
       url: `https://api.themoviedb.org/3/movie/${movieId}`,
@@ -21,20 +26,20 @@ const MovieDetailsPage = () => {
     axios
       .request(options)
       .then((response) => {
-        setLoading(true);
-
         setData(response.data);
-
-        setLoading(false);
       })
-      .catch((err) => console.error(err));
-  }, [movieId]);
+      .catch((err) => console.error(err))
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [movieId, prevLocationRef, location]);
 
   if (loading) return <p>Loading...</p>;
+  else if (data == null && data == undefined) return <></>;
 
   return (
     <>
-      <NavLink to={location.state ?? "/"}>Back</NavLink>
+      <NavLink to={prevLocationRef.current ?? "/"}>Back</NavLink>
       <div className={css.container}>
         <img
           className={css.image}

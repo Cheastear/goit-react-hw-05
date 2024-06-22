@@ -10,7 +10,9 @@ const MoviesPage = () => {
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const request = (searchBarText) => {
+  const request = async (searchBarText) => {
+    setLoading(true);
+
     let options = {
       ...responseOptions,
       url: `https://api.themoviedb.org/3/search/movie`,
@@ -19,16 +21,16 @@ const MoviesPage = () => {
         query: searchBarText,
       },
     };
-    axios
+
+    await axios
       .request(options)
       .then((response) => {
-        setLoading(true);
-
         setData(response.data);
-
-        setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {

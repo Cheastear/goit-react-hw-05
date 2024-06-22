@@ -7,20 +7,22 @@ import MovieList from "../components/MovieList/MovieList";
 const HomePage = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const fetchData = () => {
-    axios
+
+  const fetchData = async () => {
+    setLoading(true);
+
+    await axios
       .request({
         ...responseOptions,
         url: "https://api.themoviedb.org/3/trending/movie/day",
       })
       .then((response) => {
-        setLoading(true);
-
         setData(response.data.results);
-
-        setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {

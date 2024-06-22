@@ -7,10 +7,12 @@ import css from "./MovieCast.module.css";
 
 const MovieCast = () => {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
 
   useEffect(() => {
+    setLoading(true);
+
     let options = {
       ...responseOptions,
       url: `https://api.themoviedb.org/3/movie/${movieId}/credits`,
@@ -19,30 +21,33 @@ const MovieCast = () => {
     axios
       .request(options)
       .then((response) => {
-        setLoading(true);
-
         setData(response.data);
-
-        setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => {
+        setLoading(false);
+      });
   }, [movieId]);
 
   if (loading) return <p>Loading...</p>;
   return (
     <ul className={css.list}>
-      {data.cast.map((elem) => {
-        return (
-          <li key={elem.id} className={css.item}>
-            <img
-              className={css.image}
-              src={`https://image.tmdb.org/t/p/w500/${elem.profile_path}`}
-              alt="Photo character"
-            />
-            <p>{elem.character}</p>
-          </li>
-        );
-      })}
+      {data != null && data.cast != undefined ? (
+        data.cast.map((elem) => {
+          return (
+            <li key={elem.id} className={css.item}>
+              <img
+                className={css.image}
+                src={`https://image.tmdb.org/t/p/w500/${elem.profile_path}`}
+                alt="Photo character"
+              />
+              <p>{elem.character}</p>
+            </li>
+          );
+        })
+      ) : (
+        <></>
+      )}
     </ul>
   );
 };
