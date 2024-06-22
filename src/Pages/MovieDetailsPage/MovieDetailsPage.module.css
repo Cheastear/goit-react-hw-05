@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+}
+
+.info {
+  padding: 15px;
+}
+
+.image {
+  width: 350px;
+}
+
+.infoData {
+  margin-left: 20px;
+}
+
+.genres {
+  margin: 0 3px;
+}
+
+.addInfo {
+  margin: 0 15px;
+}
