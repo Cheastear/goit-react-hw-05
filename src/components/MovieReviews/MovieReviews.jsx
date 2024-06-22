@@ -30,20 +30,19 @@ const MovieReviews = () => {
   }, [movieId]);
 
   if (loading) return <p>Loading...</p>;
+  else if (data == null) return <></>;
+  else if (data.results.length == 0) return <p>No reviews</p>;
+
   return (
     <ul>
-      {data != null && data.results != undefined ? (
-        data.results.map((elem) => {
-          return (
-            <li key={elem.id} className={css.item}>
-              <p>Author: {elem.author}</p>
-              <p>{elem.content}</p>
-            </li>
-          );
-        })
-      ) : (
-        <></>
-      )}
+      {data.results.map((elem) => {
+        return (
+          <li key={elem.id} className={css.item}>
+            <p>Author: {elem.author}</p>
+            <p>{elem.content}</p>
+          </li>
+        );
+      })}
     </ul>
   );
 };

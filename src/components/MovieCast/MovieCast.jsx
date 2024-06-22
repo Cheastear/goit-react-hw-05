@@ -30,24 +30,23 @@ const MovieCast = () => {
   }, [movieId]);
 
   if (loading) return <p>Loading...</p>;
+  else if (data == null) return <></>;
+  else if (data.cast.length == 0) return <p>No cast</p>;
+
   return (
     <ul className={css.list}>
-      {data != null && data.cast != undefined ? (
-        data.cast.map((elem) => {
-          return (
-            <li key={elem.id} className={css.item}>
-              <img
-                className={css.image}
-                src={`https://image.tmdb.org/t/p/w500/${elem.profile_path}`}
-                alt="Photo character"
-              />
-              <p>{elem.character}</p>
-            </li>
-          );
-        })
-      ) : (
-        <></>
-      )}
+      {data.cast.map((elem) => {
+        return (
+          <li key={elem.id} className={css.item}>
+            <img
+              className={css.image}
+              src={`https://image.tmdb.org/t/p/w500/${elem.profile_path}`}
+              alt="Photo character"
+            />
+            <p>{elem.character}</p>
+          </li>
+        );
+      })}
     </ul>
   );
 };
