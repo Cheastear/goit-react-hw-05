@@ -6,7 +6,7 @@ import Navigation from "./components/Navigation/Navigation";
 const HomePage = lazy(() => import("./pages/HomePage"));
 const MoviesPage = lazy(() => import("./pages/MoviesPage"));
 const MovieDetailsPage = lazy(() =>
-  import("./Pages/MovieDetailsPage/MovieDetailsPage")
+  import("./pages/MovieDetailsPage/MovieDetailsPage")
 );
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
