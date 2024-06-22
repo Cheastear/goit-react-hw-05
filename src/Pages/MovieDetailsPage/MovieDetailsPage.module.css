@@ -2,12 +2,12 @@
   display: flex;
 }
 
-.info {
-  padding: 15px;
-}
-
 .image {
   width: 350px;
+}
+
+.info {
+  padding: 15px;
 }
 
 .infoData {
