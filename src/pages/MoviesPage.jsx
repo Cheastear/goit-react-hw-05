@@ -46,7 +46,6 @@ const MoviesPage = () => {
     if (e.target.elements.searchBar.value.trim() == "") return;
 
     setSearchParams({ searchBar: e.target.elements.searchBar.value });
-    request(e.target.elements.searchBar.value);
     e.target.reset();
   };
 
